@@ -1,0 +1,14 @@
+#!/bin/bash
+
+THISDIR=$(dirname "$0")
+
+. $THISDIR/config
+
+if [ "$1" == "" ]; then
+  echo 'Syntax: geany-reconf {configset}'
+  echo "Valid configsets are subfolders inside $THISDIR"
+  exit 1
+fi
+
+cp "$THISDIR/$1/snippets.conf" "$GEANY_CONF_PATH/snippets.conf"
+sed -r -i -f "$THISDIR/$1/patch.sed" "$GEANY_CONF_PATH/geany.conf"
