@@ -1,13 +1,18 @@
 #!/bin/bash
 
-THISDIR=$(dirname "$0")
+THISDIR="`readlink -f "$0"`"
 
 . $THISDIR/config
 
 if [ "$1" == "" ]; then
-  echo 'Syntax: geany-reconf {configset}'
-  echo "Valid configsets are subfolders inside $THISDIR"
-  exit 1
+    echo 'Syntax: geany-reconf {configset}'
+    echo "Valid configsets are subfolders inside $THISDIR"
+    exit 1
+fi
+
+if [ ! -d "$THISDIR/$1" ]; then
+    echo "Configset does not exist"
+    exit 2
 fi
 
 cp "$THISDIR/$1/snippets.conf" "$GEANY_CONF_PATH/snippets.conf"
